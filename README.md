@@ -37,9 +37,10 @@
 |barCursorColor|string|no|bar展开子项的分隔样式|height:1,backgroundColor:'rgba(240,240,240,1)'|
 |barCursorHeight|number|no|bar底部游标的颜色|'rgba(258,88,28,1)'|
 |onEndShouldRate|number|no|bar底部游标的高度|1|
-|onReqData|func|yes|需要请求数据时自动调用|null|
+|onReqData|func(index,itemIndex)|yes|需要请求数据时自动调用|null|
 |onBeginRefreshFooter|func|no|上拉刷新回调|null|
 |onListScroll|func|no|列表滚动回调|null|
+|onClickBar|func(index,itemIndex)|no|点击bar的回调|null|
 
 
 # Methods
@@ -152,7 +153,7 @@ export default class App extends Component {
                     ItemSeparatorComponent={this.renderSepara}
                     onReqData={this.onReqData}
                     onBeginRefreshFooter={this.onBeginRefreshFooter}
-                    clickBar={this.clickBar}
+                    onClickBar={this.clickBar}
                     showsVerticalScrollIndicator={false}
                     tabFloatTop={50}
                 >
