@@ -34,7 +34,9 @@
 |barItemTextStyle|any|no|bar展开子项的标题样式|color:'#333333',fontSize:15,marginLeft:20|
 |barItemFooterStyle|any|no|bar展开列表底部样式|height:10,borderBottomWidth:1,borderBottomColor:'rgba(200,200,200,1)'|
 |barItemSeparatorStyle|any|no|bar展开子项的分隔样式|height:1,backgroundColor:'rgba(240,240,240,1)'|
-|onEndShouldRate|number|no|开始上拉刷新的距离(0-1)|0.2|
+|barCursorColor|string|no|bar展开子项的分隔样式|height:1,backgroundColor:'rgba(240,240,240,1)'|
+|barCursorHeight|number|no|bar底部游标的颜色|'rgba(258,88,28,1)'|
+|onEndShouldRate|number|no|bar底部游标的高度|1|
 |onReqData|func|yes|需要请求数据时自动调用|null|
 |onBeginRefreshFooter|func|no|上拉刷新回调|null|
 |onListScroll|func|no|列表滚动回调|null|

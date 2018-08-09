@@ -45,6 +45,8 @@ export default class SFTabList extends Component {
         barItemTextStyle:PropTypes.any,
         barItemFooterStyle:PropTypes.any,
         barItemSeparatorStyle:PropTypes.any,
+        barCursorColor: PropTypes.string,
+        barCursorHeight:PropTypes.number,
 
         onEndShouldRate: PropTypes.number,
         onClickBar: PropTypes.func.isRequired,
@@ -89,7 +91,9 @@ export default class SFTabList extends Component {
         barItemSeparatorStyle:{
             height:1,
             backgroundColor:'rgba(240,240,240,1)'
-        }
+        },
+        barCursorColor:'rgba(258,88,28,1)',
+        barCursorHeight:1
     }
 
     constructor(props) {
@@ -103,6 +107,7 @@ export default class SFTabList extends Component {
             ds: [],
             headerHeight: 0,
             isTop: false,
+            fixedBarOpacity:0,
             isLoading:false//首次加载等待
         };
         this.cacheData=[];
@@ -191,7 +196,6 @@ export default class SFTabList extends Component {
                     this.setState({
                         isTop: true
                     });
-
                     for (var i = 0; i < this.scrollOffy.length; i++){
                         this.scrollOffy[i] = this.state.headerHeight;
                     }
@@ -286,6 +290,8 @@ export default class SFTabList extends Component {
                 barWidth={this.props.barWidth}
                 barTitles={this.props.barTitles}
                 width={this.state.fWidth}
+                cursorColor={this.props.barCursorColor}
+                cursorHeight={this.props.barCursorHeight}
                 clickBar={this._clickTabBar}
             />
         )
@@ -311,6 +317,8 @@ export default class SFTabList extends Component {
                 barTitles={this.props.barTitles}
                 fixed={true}
                 width={this.state.fWidth}
+                cursorColor={this.props.barCursorColor}
+                cursorHeight={this.props.barCursorHeight}
                 clickBar={this._clickTabBar}
             />
         )

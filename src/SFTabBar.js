@@ -39,7 +39,9 @@ export default class SFTabList extends Component {
         barItemTextStyle: PropTypes.any,
         barItemFooterStyle: PropTypes.any,
         barItemSeparatorStyle: PropTypes.any,
-        barShow: PropTypes.bool
+        barShow: PropTypes.bool,
+        cursorColor: PropTypes.string,
+        cursorHeight:PropTypes.number,
     }
     static defaultProps = {
         barHeight: 40,
@@ -53,13 +55,14 @@ export default class SFTabList extends Component {
         this.state = {
             index: 0,
             itemIndexs: [],
-            showBarItem: false
+            showBarItem: false,
+            cursorLeft:new Animated.Value(0)
         }
     }
 
     componentWillMount() {
         for (var i = 0; i < this.props.barTitles.length; i++) {
-            this.state.itemIndexs.push(0);
+            this.state.itemIndexs.push(-1);
         }
     }
 
@@ -74,6 +77,7 @@ export default class SFTabList extends Component {
         this.setState({
             index: index
         })
+        this._cursor_move(index);
     }
     clickBar = (index) => {
         var title = this.props.barTitles[index];
@@ -82,6 +86,7 @@ export default class SFTabList extends Component {
         })
         if (title instanceof Array) {
             var barTop = this.props.getBarTop();
+            title = title.slice(1,this.props.barTitles.length-1);
             this.barTable.show(title, barTop + this.props.barHeight + 1);
             this.setState({
                 showBarItem: true
@@ -91,6 +96,7 @@ export default class SFTabList extends Component {
                 this.props.clickBar(index, 0);
             }
         }
+        this._cursor_move(index);
     }
     _itemBarOnHide = () => {
         this.setState({
@@ -109,6 +115,12 @@ export default class SFTabList extends Component {
     }
     _getBgColor = () => {
         return this.props.barContentStyle.backgroundColor?this.props.barContentStyle.backgroundColor:'white';
+    }
+    _cursor_move = (index) => {
+        Animated.timing(this.state.cursorLeft, {
+            toValue: index*this.props.barWidth,
+            duration: 200,
+        }).start();
     }
     render_triangle = (value) => {
         if (value) {
@@ -142,7 +154,20 @@ export default class SFTabList extends Component {
             )
         }
     }
+    render_cursor = () => {
+        return(
+            <Animated.View style={{
+                position:'absolute',
+                left:this.state.cursorLeft,
+                top:this.props.barHeight,
+                width:this.props.barWidth,
+                height:this.props.cursorHeight,
+                backgroundColor:this.props.cursorColor
+            }}>
 
+            </Animated.View>
+        )
+    }
     render() {
         var barStyle = null;
         var opacity = 0;
@@ -163,7 +188,13 @@ export default class SFTabList extends Component {
             var isMul = false;
             var title = this.props.barTitles[i];
             if (title instanceof Array) {
-                title = title[this.state.itemIndexs[i]];
+                if(this.state.itemIndexs[i] != -1){
+                    title = title.slice(1,this.props.barTitles.length-1);
+                    title = title[this.state.itemIndexs[i]];
+                }else{
+                    title = title[0];
+                }
+
                 isMul = true;
             }
             ary.push(
@@ -203,6 +234,7 @@ export default class SFTabList extends Component {
                     clickBarItem={this._clickBarItem}
                     onHide={this._itemBarOnHide}
                 />
+                {this.render_cursor()}
             </ScrollView>
         )
     }
